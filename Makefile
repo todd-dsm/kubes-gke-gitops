@@ -15,7 +15,7 @@ prep:   ## Prepare for the build
 all:	init plan apply
 
 init:	## Initialze the build
-	terraform init -get=true -backend=true -reconfigure
+	terraform init -get=true -backend=true -upgrade=true -reconfigure
 
 plan:	## Initialze and Plan the build with output log
 	terraform fmt -recursive=true
