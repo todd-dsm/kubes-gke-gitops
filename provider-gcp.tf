@@ -1,12 +1,14 @@
 /*
-  -----------------------------------------------------------------------------
-                                   TERRAFORM
-  -----------------------------------------------------------------------------
+  --------------------------------------------------------|------------------------------------------------------------
+                                                      TERRAFORM
+  ---------------------------------------------------------------------------------------------------------------------
 */
+# Check Releases here: version numbers tend to match, and should
+# https://github.com/hashicorp/terraform-provider-google/releases
+# https://github.com/hashicorp/terraform-provider-google-beta/releases
 terraform {
-  required_version = ">= 1.2.9"
+  required_version = "~> 1.2.9"
   required_providers {
-
     google = {
       source  = "hashicorp/google"
       version = "~> 4.36.0"
@@ -18,14 +20,10 @@ terraform {
   }
 }
 
-# Check Releases here: version numbers tend to match, and should
-# https://github.com/hashicorp/terraform-provider-google/releases
-# https://github.com/hashicorp/terraform-provider-google-beta/releases
-
 /*
-  -----------------------------------------------------------------------------
-                                    PROJECT
-  -----------------------------------------------------------------------------
+  --------------------------------------------------------|------------------------------------------------------------
+                                                       PROJECT
+  ---------------------------------------------------------------------------------------------------------------------
 */
 provider "google" {
   #credentials = file(var.projectCreds)
