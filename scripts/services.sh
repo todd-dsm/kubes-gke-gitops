@@ -32,7 +32,7 @@ fi
 #declare projAPIs=('cloudresourcemanager' 'cloudbilling' 'iam' 'compute' \
 #    'container' 'containerregistry' 'dns' 'storage-component' 'cloudtrace')
 userAction=$1
-declare projAPIs=('compute' 'dns')
+declare projAPIs=('dns' 'compute' 'container')
 
 ###----------------------------------------------------------------------------
 ### FUNCTIONS
