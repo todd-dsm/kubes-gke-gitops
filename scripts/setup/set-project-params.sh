@@ -14,7 +14,7 @@ gcloud config set account "$emailID"
 
 
 pMsg "Setting to pre-existing project..."
-gcloud config set project "$TF_VAR_project"
+gcloud config set project "$TF_VAR_project_id"
 
 
 pMsg "Setting project region and zone..."
