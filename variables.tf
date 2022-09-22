@@ -44,8 +44,8 @@ variable "cidr_range" {
   type        = string
 }
 
-variable "minDistSize" {
-  description = "Minimum number of subnets and nodes; E.G.: export TF_VAR_minDistSize=4"
+variable "min_dist_size" {
+  description = "Minimum number of subnets and nodes; E.G.: export TF_VAR_min_dist_size=4"
   type        = number
 }
 
@@ -60,18 +60,18 @@ variable "minDistSize" {
 
 # ----------------------------------------------------------------------------------------------------------------------
 
-#variable "cluster_apps" {
-#  description = "Display name in GKE and kubectl; from ENV; E.G.: TF_VAR_cluster_apps=apps-stage-la"
-#}
-#
+variable "cluster_apps" {
+  description = "Display name in GKE and kubectl; from ENV; E.G.: TF_VAR_cluster_apps=apps-stage-la"
+}
+
 #variable "cluster_vault" {
 #  description = "Display name in GKE and kubectl; from ENV; E.G.: TF_VAR_cluster_vault=vault-$product-stage"
 #}
-#
-#variable "kubeNode_type" {
-#  description = "GKE node pool machine type, from ENV; E.G.: export TF_VAR_kubeNode_type=n1-standard-1"
-#  type        = string
-#}
+
+variable "worker_type" {
+  description = "GKE node pool machine type, from ENV; E.G.: export TF_VAR_worker_type=n1-standard-1"
+  type        = string
+}
 
 #variable "kubes_log_service" {
 #  type    = string
@@ -98,9 +98,7 @@ variable "minDistSize" {
 //    "cloudresourcemanager.googleapis.com",
 //    "container.googleapis.com",
 //    "iam.googleapis.com",
-//    "dns.googleapis.com",                                         DNS SHOULD BE universally enabled on all projects
+//    "dns.googleapis.com",                 # DNS SHOULD BE universally enabled on all projects
 //  ]
 //}
-//variable "host_cidr" {
-//  description = "CIDR block reserved for networking, from ENV; E.G.: export TF_VAR_host_cidr=10.0.16.0/20"
-//}
+
