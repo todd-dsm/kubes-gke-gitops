@@ -3,7 +3,7 @@
 
 # Grab some ENV stuff
 TF_VAR_project	?= $(shell $(TF_VAR_project))
-TF_VAR_envBuild 	?= $(shell $(TF_VAR_envBuild))
+TF_VAR_envBuild	?= $(shell $(TF_VAR_envBuild))
 
 
 # Prep the project                                                               
@@ -12,7 +12,7 @@ prep:   ## Prepare for the build
 	@printf '\n\n%s\n\n' "IF THIS LOOKS CORRECT YOU ARE CLEAR TO TERRAFORM" 
 
 # Start Terraforming
-all:	init plan apply
+all:	init plan apply creds ingrss
 
 init:	## Initialze the build
 	terraform init -get=true -backend=true -upgrade=true -reconfigure
@@ -26,6 +26,13 @@ apply:	## Build Terraform project with output log
 	terraform apply --auto-approve -no-color \
 		-input=false 2>&1 | \
 		tee /tmp/tf-$(TF_VAR_project)-apply.out
+
+creds:	## Retrieve the KUBECONFIG file
+	@scripts/get-creds.sh
+
+ingrss:	## addons/ingress/istio/istio-install.sh 
+	@addons/ingress/istio/istio-install.sh 
+	#@addons/ingress/istio/istio-demo.sh
 
 addr:	## Retrieve the public_ip address from the Instance
 	terraform state show module.compute.aws_instance.test_instance | grep 'public_ip' | grep -v associate_public_ip_address
@@ -45,10 +52,7 @@ clean:	## Clean WARNING Message
 	@exit
 
 clean-all:	## Destroy Terraformed resources and all generated files with output log
-	terraform apply -destroy -auto-approve -no-color 2>&1 | \
-	 	tee /tmp/tf-$(TF_VAR_project)-destroy.out
-	rm -f "$(filePlan)"
-	#rm -rf .terraform/ .terraform.lock.hcl
+	scripts/destroyer.sh 
 
 #-----------------------------------------------------------------------------#
 #------------------------   MANAGERIAL OVERHEAD   ----------------------------#
