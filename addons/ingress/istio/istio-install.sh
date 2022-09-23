@@ -14,7 +14,7 @@
 # -----------------------------------------------------------------------------
 #   AUTHOR: Todd E Thomas (github.com/todd-dsm)
 # -----------------------------------------------------------------------------
-set -x
+#set -x
 
 
 ###----------------------------------------------------------------------------
@@ -22,8 +22,6 @@ set -x
 ###----------------------------------------------------------------------------
 # ENV Stuff
 #: "${1?  Wheres my first agument, bro!}"
-myRepoName='kiali'
-myRepoURL="https://kiali.org/helm-charts"
 #myNamespace='gitlab-managed-apps'
 #myReleaseName="${myRepoName}-ui"
 #myValues='addons/gitlab/ingress/values.yaml'
@@ -60,7 +58,6 @@ ktx "${ktxFile##*/}"
 kubectl config set-context --current --namespace=default
 
 
-exit
 ###---
 ### Install Istio:latest
 ###---
@@ -88,36 +85,10 @@ istioctl verify-install
 istioctl analyze
 
 
-###----------------------------------------------------------------------------
-### Install Kiali
-### REF: https://kiali.io/docs/installation/installation-guide/install-with-helm/
-###----------------------------------------------------------------------------
-### Install/configure the helm repo if it's not already
 ###---
-if ! helm repo  list | grep "$myRepoName"; then
-    pMsg "configuring helm chart repo..."
-    helm repo add "$myRepoName" "$myRepoURL"
-    helm repo update
-else
-    echo "This chart repo is already configured"
-fi
-
-
+### Wait for the LB to come online
 ###---
-### Send it to the cluster
-###---
-helm install \
-    --set cr.create=true \
-    --set cr.namespace=istio-system \
-    --namespace kiali-operator \
-    --create-namespace \
-    kiali-operator \
-    kiali/kiali-operator
-
-
-###---
-### REQ
-###---
+kubectl --namespace istio-system get service istio-ingressgateway
 
 
 ###---
