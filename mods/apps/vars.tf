@@ -23,7 +23,7 @@ variable "zone" {
   type        = string
 }
 
-variable "dns_zone" {
+variable "dns_name" {
   description = "Primary DNS zone; E.G.: domain.tld"
   type        = string
 }
