@@ -32,7 +32,12 @@ creds:	## Retrieve the KUBECONFIG file
 
 ingrss:	## addons/ingress/istio/istio-install.sh 
 	@addons/ingress/istio/istio-install.sh 
-	#@addons/ingress/istio/istio-demo.sh
+	#@addons/ingress/istio/kiali-install.sh 
+
+# ------------------- make all ends here -------------------------------------
+
+ingdmo:	## 
+	@addons/ingress/istio/istio-demo.sh
 
 addr:	## Retrieve the public_ip address from the Instance
 	terraform state show module.compute.aws_instance.test_instance | grep 'public_ip' | grep -v associate_public_ip_address
@@ -47,11 +52,11 @@ clean:	## Clean WARNING Message
 	@echo "    ***** STOP, THINK ABOUT THIS *****"
 	@echo "You're about to DESTROY ALL that we have built"
 	@echo ""
-	@echo "IF YOU'RE CERTAIN, THEN 'make clean-all'"
+	@echo "IF YOU'RE CERTAIN, THEN 'make destroy'"
 	@echo ""
 	@exit
 
-clean-all:	## Destroy Terraformed resources and all generated files with output log
+destroy:	## Destroy Terraformed resources and all generated files with output log
 	scripts/destroyer.sh 
 
 #-----------------------------------------------------------------------------#
