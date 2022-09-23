@@ -29,8 +29,8 @@ variable "zone" {
 #  type        = string
 #}
 
-variable "dns_zone" {
-  description = "Primary DNS zone; E.G.: domain.tld"
+variable "dns_name" {
+  description = "Primary DNS name; E.G.: domain.tld"
   type        = string
 }
 
