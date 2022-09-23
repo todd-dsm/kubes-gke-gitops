@@ -36,7 +36,7 @@
 # ENV Stuff
 verbose=0
 targetCluster="$TF_VAR_cluster_apps"
-sleep 10s
+
 
 ###-----------------------------------------------------------------------------
 ### FUNCTIONS
@@ -201,6 +201,7 @@ fi
 ###----------------------------------------------------------------------------
 ### Echo an array element keyed from an environment variable
 ###---
+sleep 10s
 pMsg "Pulling the kubeconfig for:"
 while IFS=$'\n' read -r foundCluster; do
     # Is this cluster already configured?
@@ -209,6 +210,7 @@ while IFS=$'\n' read -r foundCluster; do
     if [[ -e "$ktxFile" ]]; then
         echo "Updating the KUBECONFIG definition..."
         rm -f "$ktxFile"
+        export USE_GKE_GCLOUD_AUTH_PLUGIN=True
         getKubeConfig "$TF_VAR_region" "$foundCluster"
     else
         getKubeConfig "$TF_VAR_region" "$foundCluster"
