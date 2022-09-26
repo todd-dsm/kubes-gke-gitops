@@ -24,15 +24,15 @@ plan:	## Initialze and Plan the build with output log
 
 apply:	## Build Terraform project with output log
 	terraform apply --auto-approve -no-color \
-		-input=false 2>&1 | \
+		-parallelism=20 -input=false 2>&1 | \
 		tee /tmp/tf-$(TF_VAR_project)-apply.out
 
 creds:	## Retrieve the KUBECONFIG file
 	@scripts/get-creds.sh
 
 ingrss:	## addons/ingress/istio/istio-install.sh 
-	@addons/ingress/istio/istio-install.sh 
-	#@addons/ingress/istio/kiali-install.sh 
+	@addons/istio/istio-install.sh
+	#@addons/istio/kiali/kiali-install.sh
 
 # ------------------- make all ends here -------------------------------------
 
