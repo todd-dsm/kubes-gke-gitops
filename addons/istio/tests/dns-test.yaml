@@ -7,5 +7,6 @@ spec:
   selector:
     app: tester
   ports:
-  - port: 80
+  - name: http-tester
+    port: 8000
     targetPort: 80

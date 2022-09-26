@@ -87,13 +87,16 @@ istioctl analyze
 
 ###---
 ### Wait for the LB to come online
+### Should have the LB when the wait condition is satisified; it's quick
 ###---
+kubectl -n istio-system wait --for=condition=Ready pods -l app=istio-ingressgateway
 kubectl --namespace istio-system get service istio-ingressgateway
 
 
 ###---
 ### REQ
 ###---
+kubectl -n istio-system describe pods istio-ingressgateway -l app=istio-ingressgateway
 
 
 ###---
