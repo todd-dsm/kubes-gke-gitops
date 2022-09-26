@@ -36,7 +36,11 @@
 # ENV Stuff
 verbose=0
 targetCluster="$TF_VAR_cluster_apps"
+### Use KTX to select tthe cluster
+source "${HOME}/.ktx"
+source "${HOME}/.ktx-completion.sh"
 
+# Data
 
 ###-----------------------------------------------------------------------------
 ### FUNCTIONS
@@ -223,8 +227,10 @@ done < <(gcloud container clusters list \
 
 
 ###---
-### REQ
+### Select the $targetCluster
 ###---
+ktx "${ktxFile##*/}"
+
 
 
 ###---

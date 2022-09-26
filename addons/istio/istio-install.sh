@@ -28,11 +28,6 @@
 #newValues='https://raw.githubusercontent.com/antonputra/tutorials/6526fd7536cbc8ce4327e2526e3d96cdd4e87418/lessons/082/values.yaml'
 #myVersion='3.35.0'
 
-
-### Use KTX to select tthe cluster
-source "${HOME}/.ktx"
-source "${HOME}/.ktx-completion.sh"
-
 # Data
 
 ###----------------------------------------------------------------------------
@@ -47,21 +42,15 @@ function pMsg() {
 ###----------------------------------------------------------------------------
 ### MAIN PROGRAM
 ###----------------------------------------------------------------------------
-### Ensure some baselines for the install
+### Set the 'default' namespace first
 ###---
-ktx "${ktxFile##*/}"
-
-
-###---
-### REQ
-###---
-kubectl config set-context --current --namespace=default
+kubectl config set-context --current --namespace='default'
 
 
 ###---
 ### Install Istio:latest
 ###---
-istioctl install --set profile=demo -y
+istioctl install --set profile='default' -y
 
 
 ###---
@@ -89,6 +78,7 @@ istioctl analyze
 ### Wait for the LB to come online
 ### Should have the LB when the wait condition is satisified; it's quick
 ###---
+pMsg "Wating for the istio-ingressgateway to make the LB ready..."
 kubectl -n istio-system wait --for=condition=Ready pods -l app=istio-ingressgateway
 kubectl --namespace istio-system get service istio-ingressgateway
 
