@@ -1,4 +1,60 @@
 /*
+  --------------------------------------------------------|-------------------------------------------------------------
+                                                      NETWORKING
+  ----------------------------------------------------------------------------------------------------------------------
+*/
+variable "network" {
+  description = "Name of the VPC Network"
+  default     = "asm-vpc"
+}
+
+variable "subnetwork" {
+  description = "Subnet Name"
+  default     = "subnet-01"
+}
+
+variable "subnetwork_ip_range" {
+  description = "subnet CIDR"
+  default     = "10.10.10.0/24"
+}
+
+variable "ip_range_pods" {
+  default = "subnet-01-pods"
+}
+
+variable "ip_range_pods_cidr" {
+  default = "10.100.0.0/16"
+}
+
+variable "ip_range_services" {
+  default = "subnet-01-services"
+}
+
+variable "ip_range_services_cidr" {
+  default = "10.101.0.0/16"
+}
+
+/*
+  --------------------------------------------------------|-------------------------------------------------------------
+                                                      KUBERNETES
+  ----------------------------------------------------------------------------------------------------------------------
+*/
+//variable "cluster_name" {
+//  description = "Display name in GKE and kubectl; from ENV; E.G.: TF_VAR_cluster_apps=apps-stage-la"
+//}
+
+# ----------------------------------------------------------------------------------------------------------------------
+
+variable "cluster_name" {
+  description = "Display name in GKE and kubectl; from ENV; E.G.: TF_VAR_cluster_apps=apps-stage-la"
+}
+
+variable "worker_type" {
+  description = "Compute Engine VM instance TYPES"
+  type        = string
+}
+
+/*
   -----------------------------------------------------------------------------
                           Initialize/Declare Variables
                                  PROJECT-LEVEL
@@ -14,13 +70,18 @@ variable "project_id" {
   type        = string
 }
 
+variable "project_number" {
+  description = "A 13-digit number that uniquely IDs a project."
+  type        = number
+}
+
 variable "region" {
-  description = "Deployment Region; from ENV; E.G.: us-west2"
+  description = "Deployment Region; from ENV; E.G.: us-central1"
   type        = string
 }
 
-variable "zone" {
-  description = "Deployment Zone(s); from ENV; E.G.: us-west2-a"
+variable "zones" {
+  description = "Deployment Zone(s); from ENV; E.G.: us-central1-a"
   type        = string
 }
 
@@ -33,72 +94,3 @@ variable "dns_name" {
   description = "Primary DNS name; E.G.: domain.tld"
   type        = string
 }
-
-/*
-  --------------------------------------------------------|-------------------------------------------------------------
-                                                      NETWORKING
-  ----------------------------------------------------------------------------------------------------------------------
-*/
-variable "cidr_range" {
-  description = "CIDR range for the target VPC"
-  type        = string
-}
-
-variable "min_dist_size" {
-  description = "Minimum number of subnets and nodes; E.G.: export TF_VAR_min_dist_size=4"
-  type        = number
-}
-
-/*
-  --------------------------------------------------------|-------------------------------------------------------------
-                                                      KUBERNETES
-  ----------------------------------------------------------------------------------------------------------------------
-*/
-//variable "cluster_name" {
-//  description = "Display name in GKE and kubectl; from ENV; E.G.: TF_VAR_cluster_apps=apps-stage-la"
-//}
-
-# ----------------------------------------------------------------------------------------------------------------------
-
-variable "cluster_apps" {
-  description = "Display name in GKE and kubectl; from ENV; E.G.: TF_VAR_cluster_apps=apps-stage-la"
-}
-
-#variable "cluster_vault" {
-#  description = "Display name in GKE and kubectl; from ENV; E.G.: TF_VAR_cluster_vault=vault-$product-stage"
-#}
-
-variable "worker_type" {
-  description = "GKE node pool machine type, from ENV; E.G.: export TF_VAR_worker_type=n1-standard-1"
-  type        = string
-}
-
-#variable "kubes_log_service" {
-#  type    = string
-#  default = "logging.googleapis.com/kubernetes"
-#}
-#
-#variable "kubes_monitor_service" {
-#  type    = string
-#  default = "monitoring.googleapis.com/kubernetes"
-#}
-
-# ----------------------------------------------------------------------------------------------------------------------
-//variable "kubeMaster_type" {
-//  description = "GKE master machine type; from ENV; E.G.: export TF_VAR_kubeMaster_type=n1-standard-1"
-//}
-//
-//variable "kubeMaster_count" {
-//  description = "Initial number of master nodes, from ENV; E.G.: export TF_VAR_kubeMaster_count=3"
-//}
-//variable "project_services" {
-//  type = "list"
-//
-//  default = [
-//    "cloudresourcemanager.googleapis.com",
-//    "container.googleapis.com",
-//    "iam.googleapis.com",
-//    "dns.googleapis.com",                 # DNS SHOULD BE universally enabled on all projects
-//  ]
-//}
-
