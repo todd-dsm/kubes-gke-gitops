@@ -11,11 +11,11 @@ terraform {
   required_providers {
     google = {
       source  = "hashicorp/google"
-      version = "~> 4.3.0"
+      version = "< 5.0.0"
     }
     google-beta = {
       source  = "hashicorp/google-beta"
-      version = "~> 4.3.0"
+      version = "< 5.0.0"
     }
   }
 }
@@ -26,20 +26,24 @@ terraform {
   ---------------------------------------------------------------------------------------------------------------------
 */
 provider "google" {
-  #credentials = file(var.projectCreds)
-  region = var.region
-  #zone    = var.zone
+  region  = var.region
   project = var.project_id
 }
 
 provider "google-beta" {
-  #credentials = file(var.projectCreds)
-  region = var.region
-  #zone    = var.zone
+  region  = var.region
   project = var.project_id
 }
 
-#TEST credentials file
-#output "creds" {
-#  value = var.projectCreds
-#}
+/*
+  --------------------------------------------------------|------------------------------------------------------------
+                                                      KUBERNETES
+  ---------------------------------------------------------------------------------------------------------------------
+*/
+data "google_client_config" "default" {}
+
+provider "kubernetes" {
+  host                   = "https://${module.gke.endpoint}"
+  token                  = data.google_client_config.default.access_token
+  cluster_ca_certificate = base64decode(module.gke.ca_certificate)
+}
