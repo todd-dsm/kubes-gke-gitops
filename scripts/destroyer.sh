@@ -68,7 +68,7 @@ terraform apply -destroy -auto-approve -no-color 2>&1 | \
 ###---
 ### Clean up the local cruft
 ###---
-rm -rf .terraform/ .terraform.lock.hcl "$filePlan" "$ktxFile"
+rm -rf .terraform/ "$filePlan" "$ktxFile"
 
 
 ###---

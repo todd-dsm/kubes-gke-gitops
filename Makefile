@@ -12,7 +12,7 @@ prep:   ## Prepare for the build
 	@printf '\n\n%s\n\n' "IF THIS LOOKS CORRECT YOU ARE CLEAR TO TERRAFORM" 
 
 # Start Terraforming
-all:	init plan apply creds ingrss
+all:	init plan apply creds #pipes
 
 init:	## Initialze the build
 	terraform init -get=true -backend=true -upgrade=true -reconfigure
@@ -30,11 +30,15 @@ apply:	## Build Terraform project with output log
 creds:	## Retrieve the KUBECONFIG file
 	@scripts/get-creds.sh
 
+pipes:	## Install Argoo CD
+	@addons/pipelines/argo-install.sh
+
+# ------------------- make all ends here -------------------------------------
+
 ingrss:	## addons/ingress/istio/istio-install.sh 
 	@addons/istio/istio-install.sh
 	#@addons/istio/kiali/kiali-install.sh
 
-# ------------------- make all ends here -------------------------------------
 
 ingdmo:	## 
 	@addons/ingress/istio/istio-demo.sh
