@@ -1,0 +1,51 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: external-dns
+  labels:
+    app.kubernetes.io/name: external-dns
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: external-dns
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: external-dns
+    spec:
+      serviceAccountName: external-dns
+      containers:
+        - name: external-dns
+          image: k8s.gcr.io/external-dns/external-dns:v0.11.0
+          resources:
+            requests:
+              memory: "50Mi"
+              cpu: "10m"
+            limits:
+              memory: "50Mi"
+              cpu: "50m"
+          args:
+            - --source=service
+            - --source=ingress
+            - --domain-filter=kubes.rocks
+            - --provider=google
+            - --log-format=json # google cloud logs parses severity of the "text" log format incorrectly
+            # - --google-project=my-cloud-dns-project # Use this to specify a project different from the one external-dns is running inside
+            - --google-zone-visibility=public # Use this to filter to only zones with this visibility. Set to either 'public' or 'private'. Omitting will match public and private zones
+            - --policy=upsert-only # would prevent ExternalDNS from deleting any records, omit to enable full synchronization
+            - --registry=txt
+            - --txt-owner-id=whatever
+      #     # uncomment below if static credentials are used
+      #     env:
+      #       - name: GOOGLE_APPLICATION_CREDENTIALS
+      #         value: /etc/secrets/service-account/credentials.json
+      #     volumeMounts:
+      #       - name: google-service-account
+      #         mountPath: /etc/secrets/service-account/
+      # volumes:
+      #   - name: google-service-account
+      #     secret:
+      #       secretName: external-dns
