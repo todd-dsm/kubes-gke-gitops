@@ -36,7 +36,11 @@
 # ENV Stuff
 verbose=0
 targetCluster="$TF_VAR_cluster_apps"
+### Use KTX to select tthe cluster
+source "${HOME}/.ktx"
+source "${HOME}/.ktx-completion.sh"
 
+# Data
 
 ###-----------------------------------------------------------------------------
 ### FUNCTIONS
@@ -201,7 +205,8 @@ fi
 ###----------------------------------------------------------------------------
 ### Echo an array element keyed from an environment variable
 ###---
-sleep 10s
+#sleep 10s
+set -x
 pMsg "Pulling the kubeconfig for:"
 while IFS=$'\n' read -r foundCluster; do
     # Is this cluster already configured?
@@ -220,11 +225,13 @@ while IFS=$'\n' read -r foundCluster; do
         "$foundCluster"
 done < <(gcloud container clusters list \
     --region="$TF_VAR_region" --format 'value(NAME)')
-
+set +x
 
 ###---
-### REQ
+### Select the $targetCluster
 ###---
+ktx "${ktxFile##*/}"
+
 
 
 ###---
