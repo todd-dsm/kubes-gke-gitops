@@ -2,8 +2,8 @@
 # vim: tabstop=8 noexpandtab
 
 # Grab some ENV stuff
-TF_VAR_project	?= $(shell $(TF_VAR_project))
-TF_VAR_envBuild	?= $(shell $(TF_VAR_envBuild))
+TF_VAR_project_id	?= $(shell $(TF_VAR_project_id))
+TF_VAR_envBuild		?= $(shell $(TF_VAR_envBuild))
 
 
 # Prep the project                                                               
@@ -20,12 +20,12 @@ init:	## Initialze the build
 plan:	## Initialze and Plan the build with output log
 	terraform fmt -recursive=true
 	terraform plan -no-color 2>&1 | \
-		tee /tmp/tf-$(TF_VAR_project)-plan.out
+		tee /tmp/tf-$(TF_VAR_project_id)-plan.out
 
 apply:	## Build Terraform project with output log
 	terraform apply --auto-approve -no-color \
 		-input=false 2>&1 | \
-		tee /tmp/tf-$(TF_VAR_project)-apply.out
+		tee /tmp/tf-$(TF_VAR_project_id)-apply.out
 
 creds:	## Retrieve the KUBECONFIG file
 	@scripts/get-creds.sh
@@ -47,7 +47,7 @@ state:	## View the Terraform State File in VS-Code
 
 clean:	## Clean WARNING Message
 	@echo ""
-	@echo "Destroy $(TF_VAR_project)?"
+	@echo "Destroy $(TF_VAR_project_id)?"
 	@echo ""
 	@echo "    ***** STOP, THINK ABOUT THIS *****"
 	@echo "You're about to DESTROY ALL that we have built"
