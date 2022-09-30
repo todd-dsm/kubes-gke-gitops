@@ -1,12 +1,8 @@
 /*
   --------------------------------------------------------|-------------------------------------------------------------
-                                               MODULE-SCOPED VARIABLES
+                                                      NETWORKING
   ----------------------------------------------------------------------------------------------------------------------
 */
-#variable "envBuild" {
-#  description = "Build Environment; from ENV; E.G.: envBuild=stage"
-#  type        = string
-#}
 
 variable "project_id" {
   description = "Currently configured project ID; from ENV; E.G.: My First Project"
@@ -14,31 +10,16 @@ variable "project_id" {
 }
 
 variable "region" {
-  description = "Deployment Region; from ENV; E.G.: us-west2"
-  type        = string
-}
-
-#variable "zone" {
-#  description = "Deployment Zone(s); from ENV; E.G.: us-west2-a"
-#  type        = string
-#}
-#
-#variable "dns_name" {
-#  description = "Primary DNS zone; E.G.: domain.tld"
-#  type        = string
-#}
-
-/*
-  --------------------------------------------------------|-------------------------------------------------------------
-                                                      NETWORKING
-  ----------------------------------------------------------------------------------------------------------------------
-*/
-variable "cidr_range" {
-  description = "CIDR range for the target VPC"
+  description = "Deployment Region; from ENV; E.G.: us-central1"
   type        = string
 }
 
 variable "min_dist_size" {
+  description = "Minimum distribution size; I.E.: integer >/= 3"
   type        = number
-  description = "Minimum number of subnets and nodes; E.G.: export TF_VAR_min_dist_size=4"
+}
+
+variable "cidr_range" {
+  description = "CIDR size/range of the target network"
+  type        = string
 }
