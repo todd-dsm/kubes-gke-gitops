@@ -39,10 +39,10 @@ variable "dns_name" {
                                                       NETWORKING
   ----------------------------------------------------------------------------------------------------------------------
 */
-variable "cidr_range" {
-  description = "CIDR range for the target VPC"
-  type        = string
-}
+#variable "cidr_range" {
+#  description = "CIDR range for the target VPC"
+#  type        = string
+#}
 
 variable "min_dist_size" {
   description = "Minimum number of subnets and nodes; E.G.: export TF_VAR_min_dist_size=4"
