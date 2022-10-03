@@ -30,9 +30,9 @@ apply:	## Build Terraform project with output log
 creds:	## Retrieve the KUBECONFIG file
 	@scripts/get-creds.sh
 
-ingrss:	## addons/ingress/istio/istio-install.sh 
-	@addons/ingress/istio/istio-install.sh 
-	#@addons/ingress/istio/kiali-install.sh 
+ingrss:	## install/configure Istio
+	@addons/istio/istio-install.sh 
+	#@addons/istio/kiali/kiali-install.sh 
 
 # ------------------- make all ends here -------------------------------------
 
