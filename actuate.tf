@@ -7,12 +7,12 @@ module "apps" {
   region        = var.region
   zone          = var.zone
   project_id    = var.project_id
-  cidr_range    = var.cidr_range
   cluster_apps  = var.cluster_apps
   worker_type   = var.worker_type
   min_dist_size = var.min_dist_size
   dns_name      = var.dns_name
-  # dns_zone      = var.dns_zone
+  #cidr_range    = var.cidr_range
+  #dns_zone      = var.dns_zone
 }
 
 # -----------------------------------------------------------------------------
