@@ -4,11 +4,9 @@
   ----------------------------------------------------------------------------------------------------------------------
 */
 resource "google_container_cluster" "apps" {
-  name               = var.cluster_apps
-  enable_autopilot   = false
-  initial_node_count = 1
-  min_master_version = data.google_container_engine_versions.gke_versions.latest_master_version
-  node_version       = data.google_container_engine_versions.gke_versions.latest_master_version
+  name                     = var.cluster_apps
+  initial_node_count       = 1
+  remove_default_node_pool = true
 
   # Default VPC with a Subnet in the target region
   location   = var.region
@@ -23,9 +21,16 @@ resource "google_container_cluster" "apps" {
   #    cluster_dns_domain = var.dns_name
   #  }
 
+  node_config {
+    local_ssd_count = 0
+  }
+
   # For some reason the vpa wants to go from true to null?!
   lifecycle {
     ignore_changes = [vertical_pod_autoscaling]
+  }
+  release_channel {
+    channel = "REGULAR"
   }
 }
 

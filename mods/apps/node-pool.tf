@@ -1,11 +1,17 @@
 # Separately Managed Node Pool
 resource "google_container_node_pool" "apps" {
-  name       = "${google_container_cluster.apps.name}-np"
-  location   = var.region
-  cluster    = google_container_cluster.apps.name
-  node_count = 1
+  name               = "${google_container_cluster.apps.name}-np"
+  location           = var.region
+  cluster            = google_container_cluster.apps.name
+  initial_node_count = 1
 
   node_config {
+    # preemptible  = true
+    local_ssd_count = 0
+    disk_type       = "pd-standard"
+    disk_size_gb    = 50
+    machine_type    = var.worker_type
+
     oauth_scopes = [
       "https://www.googleapis.com/auth/devstorage.read_only",
       "https://www.googleapis.com/auth/logging.write",
@@ -19,11 +25,20 @@ resource "google_container_node_pool" "apps" {
       env = var.project_id
     }
 
-    # preemptible  = true
-    machine_type = "n1-standard-1"
-    tags         = ["gke-node", google_container_cluster.apps.name]
+    tags = ["gke-node", google_container_cluster.apps.name]
     metadata = {
       disable-legacy-endpoints = "true"
     }
   }
+
+  management {
+    auto_repair  = true
+    auto_upgrade = true
+  }
+  autoscaling {
+    max_node_count = 4
+    min_node_count = 0
+  }
+
+
 }
