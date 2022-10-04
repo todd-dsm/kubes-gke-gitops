@@ -12,7 +12,7 @@ prep:   ## Prepare for the build
 	@printf '\n\n%s\n\n' "IF THIS LOOKS CORRECT YOU ARE CLEAR TO TERRAFORM" 
 
 # Start Terraforming
-all:	init plan apply #creds ingrss
+all:	init plan apply creds #ingrss
 
 init:	## Initialze the build
 	terraform init -get=true -backend=true -upgrade=true -reconfigure

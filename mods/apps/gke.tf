@@ -21,14 +21,6 @@ resource "google_container_cluster" "apps" {
   #    cluster_dns_domain = var.dns_name
   #  }
 
-  node_config {
-    local_ssd_count = 0
-  }
-
-  # For some reason the vpa wants to go from true to null?!
-  lifecycle {
-    ignore_changes = [vertical_pod_autoscaling]
-  }
   release_channel {
     channel = "REGULAR"
   }

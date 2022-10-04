@@ -201,8 +201,7 @@ fi
 ###----------------------------------------------------------------------------
 ### Echo an array element keyed from an environment variable
 ###---
-#sleep 10s
-set -x
+sleep 5s
 pMsg "Pulling the kubeconfig for:"
 while IFS=$'\n' read -r foundCluster; do
     # Is this cluster already configured?
@@ -222,11 +221,13 @@ while IFS=$'\n' read -r foundCluster; do
 done < <(gcloud container clusters list \
     --region="$TF_VAR_region" --format 'value(NAME)')
 
-set +x
 
 ###---
-### REQ
+### Display the cluster-info
 ###---
+if ! kubectl cluster-info; then
+    pMsg "Something is wrong with the kube-api."
+fi
 
 
 ###---

@@ -1,6 +1,8 @@
 # -----------------------------------------------------------------------------
 # Kubernetes Cluster for Applications
 # -----------------------------------------------------------------------------
+# REF: https://github.com/hashicorp/learn-terraform-provision-gke-cluster
+# DOC: https://learn.hashicorp.com/tutorials/terraform/gke
 module "apps" {
   source        = "./mods/apps"
   envBuild      = var.envBuild
@@ -11,7 +13,7 @@ module "apps" {
   worker_type   = var.worker_type
   min_dist_size = var.min_dist_size
   dns_name      = var.dns_name
-  #cidr_range    = var.cidr_range
+  cidr_range    = var.cidr_range
   #dns_zone      = var.dns_zone
 }
 

@@ -31,10 +31,11 @@ resource "google_container_node_pool" "apps" {
     }
   }
 
-  management {
-    auto_repair  = true
-    auto_upgrade = true
-  }
+  #  management {
+  #    auto_repair  = true
+  #    auto_upgrade = true
+  #  }
+
   autoscaling {
     max_node_count = 4
     min_node_count = 0
