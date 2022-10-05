@@ -71,11 +71,18 @@ helm install \
 ### Wait for it...
 ###---
 kubectl -n "$myNameSpace" wait --for=condition=Ready pods -l app="$myNameSpace"
+kialiStatus="$(kubectl get kiali kiali -n istio-system -o jsonpath='{.status.conditions[].type}')"
 
 
 ###---
-### REQ
+### Display Status
 ###---
+if [[ "$kialiStatus" != 'Running' ]]; then
+    pMsg "There seems to be issue with Kiali; take a look."
+    exit 1
+else
+    pMsg "Kiali is Running!"
+fi
 
 
 ###---
