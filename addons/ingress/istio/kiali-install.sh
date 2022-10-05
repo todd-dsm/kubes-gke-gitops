@@ -26,6 +26,7 @@ set -x
 #: "${1?  Wheres my first agument, bro!}"
 myRepoName='kiali'
 myRepoURL="https://kiali.org/helm-charts"
+myNameSpace='kiali-operator'
 
 # Data
 
@@ -61,15 +62,15 @@ fi
 helm install \
     --set cr.create=true \
     --set cr.namespace=istio-system \
-    --namespace kiali-operator \
-    --create-namespace \
-    kiali-operator \
+    --namespace "$myNameSpace" \
+    --create-namespace "$myNameSpace" \
     kiali/kiali-operator
 
 
 ###---
-### REQ
+### Wait for it...
 ###---
+kubectl -n "$myNameSpace" wait --for=condition=Ready pods -l app="$myNameSpace"
 
 
 ###---
