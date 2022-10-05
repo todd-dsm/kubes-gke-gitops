@@ -29,10 +29,6 @@
 #myVersion='3.35.0'
 
 
-### Use KTX to select tthe cluster
-source "${HOME}/.ktx"
-source "${HOME}/.ktx-completion.sh"
-
 # Data
 
 ###----------------------------------------------------------------------------
@@ -49,13 +45,15 @@ function pMsg() {
 ###----------------------------------------------------------------------------
 ### Ensure some baselines for the install
 ###---
-ktx "${ktxFile##*/}"
-
-
-###---
-### REQ
-###---
 kubectl config set-context --current --namespace=default
+
+
+###---
+### Add a namespace label to instruct Istio to automatically inject
+### Envoy sidecar proxies when you deploy your application later
+###---
+pMsg "Labeling the namespace..."
+kubectl label namespace default istio-injection=enabled
 
 
 ###---
@@ -65,11 +63,11 @@ istioctl install --set profile=demo -y
 
 
 ###---
-### Add a namespace label to instruct Istio to automatically inject
-### Envoy sidecar proxies when you deploy your application later
+### Install Istio:latest
 ###---
-pMsg "Labeling the namespace..."
-kubectl label namespace default istio-injection=enabled
+istioctl admin log --level default:debug
+istioctl admin log | grep -E '(debug)$'
+kubectl -n istio-system logs -f -l app=istiod
 
 
 ###---

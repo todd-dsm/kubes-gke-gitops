@@ -56,7 +56,7 @@ fi
 
 
 ###---
-### Send it to the cluster
+### Send the Kiali Operator to the cluster
 ###---
 helm install \
     --set cr.create=true \
@@ -68,17 +68,43 @@ helm install \
 
 
 ###---
-### REQ
+### Tell the Operator to deploy the Kiali UI
+### REF: https://kiali.io/docs/installation/installation-guide/creating-updating-kiali-cr
+###---
+kubectl -n istio-system create -f "$kialiUIConfig"
+
+
+###---
+### Validate the Install
+###---
+bash <(curl -sL https://raw.githubusercontent.com/kiali/kiali-operator/master/crd-docs/bin/validate-kiali-cr.sh) \
+  -crd https://raw.githubusercontent.com/kiali/kiali-operator/master/crd-docs/crd/kiali.io_kialis.yaml \
+  --kiali-cr-name kiali \
+  -n istio-system
+
+
+###---
+### Get status
+###---
+kubectl get kiali kiali -n istio-system -o jsonpath='{.status.conditions[].type}'
+
+
+###---
+### Get the Token
+###---
+kubectl get secret -n istio-system \
+    "$(kubectl get sa kiali-service-account -n istio-system -o \
+    "jsonpath={.secrets[0].name}")" \
+        -o jsonpath='{.data.token}' | base64 -d > "$kialiToken"
+
+
+###---
+### Get the Token
 ###---
 
 
 ###---
-### REQ
-###---
-
-
-###---
-### REQ
+### Get the Token
 ###---
 
 

@@ -32,7 +32,8 @@ creds:	## Retrieve the KUBECONFIG file
 
 ingrss:	## install/configure Istio
 	@addons/istio/istio-install.sh 
-	#@addons/istio/kiali/kiali-install.sh 
+	@addons/istio/kiali/kiali-install.sh 
+	@scripts/final-steps.sh
 
 # ------------------- make all ends here -------------------------------------
 

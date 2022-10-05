@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2154
-#  PURPOSE: Description
+#  PURPOSE: After it's all installed/configured, display the useful bits to the
+#           operator.
+# -----------------------------------------------------------------------------
+#     DOCS:
 # -----------------------------------------------------------------------------
 #  PREREQS: a)
 #           b)
@@ -12,7 +15,7 @@
 #           2)
 #           3)
 # -----------------------------------------------------------------------------
-#   AUTHOR: Todd E Thomas
+#   AUTHOR: Todd E Thomas (github.com/todd-dsm)
 # -----------------------------------------------------------------------------
 set -x
 
@@ -38,52 +41,23 @@ function pMsg() {
 ###----------------------------------------------------------------------------
 ### MAIN PROGRAM
 ###----------------------------------------------------------------------------
-### REQ
+###
 ###---
 
-
 ###---
-### REQ
+### Kiali: Port-forward out to the Web UI
+###   * Call the portforward script when there's time
 ###---
-
-
-###---
-### kill all kubectl port forwarding
-###---
-pMsg "Dumping all port forwarding PIDs..."
-while read -r myPID; do
-    kill -9 "$myPID"
-done < <(pgrep kubectl)
+pMsg "Portforwarding out to the Kiali UI..."
+kubectl port-forward svc/kiali 20001:20001 -n istio-system&
+open -a 'Google Chrome' 'http://localhost:20001'
+#if ! scripts/portforward-to-pod.sh 'kiali' 20001 'istio-system'; then
+#    pMsg "  Couldn't open the port; check on that."
+#fi
 
 
-###---
-### Dump Kiali - IF it's installed
-###---
-if kubectl -n istio-system get kialis.kiali.io > /dev/null 2>&1; then
-    kubectl -n istio-system delete -f "$kialiUIConfig"
-    helm uninstall --namespace kiali-operator kiali-operator
-fi
 
 
-###---
-### Dump istio - IF it's installed
-###---
-if istioctl profile list > /dev/null 2>&1; then
-    istioctl uninstall --purge -y
-fi
-
-
-###---
-### Destroy the Infrastructure
-###---
-terraform apply -destroy -auto-approve -no-color 2>&1 | \
-    tee "/tmp/tf-${TF_VAR_project}-destroy.out"
-
-
-###---
-### Clean up the local cruft
-###---
-rm -rf .terraform/ "$filePlan" "$ktxFile"
 
 
 ###---
@@ -120,6 +94,22 @@ rm -rf .terraform/ "$filePlan" "$ktxFile"
 ### REQ
 ###---
 
+
+###---
+### REQ
+###---
+
+
+###---
+### REQ
+###---
+set +x
+
+
+###---
+### Display Kiali Token
+###---
+cat "$kialiToken"
 
 ###---
 ### fin~
