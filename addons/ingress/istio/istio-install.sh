@@ -22,12 +22,7 @@
 ###----------------------------------------------------------------------------
 # ENV Stuff
 #: "${1?  Wheres my first agument, bro!}"
-#myNamespace='gitlab-managed-apps'
-#myReleaseName="${myRepoName}-ui"
-#myValues='addons/gitlab/ingress/values.yaml'
-#newValues='https://raw.githubusercontent.com/antonputra/tutorials/6526fd7536cbc8ce4327e2526e3d96cdd4e87418/lessons/082/values.yaml'
-#myVersion='3.35.0'
-
+instProfile='demo'
 
 # Data
 
@@ -36,7 +31,7 @@
 ###----------------------------------------------------------------------------
 function pMsg() {
     theMessage="$1"
-    printf '%s\n' "$theMessage"
+    printf '\n%s\n' "$theMessage"
 }
 
 
@@ -45,6 +40,7 @@ function pMsg() {
 ###----------------------------------------------------------------------------
 ### Ensure some baselines for the install
 ###---
+pMsg "Setting the context: default"
 kubectl config set-context --current --namespace=default
 
 
@@ -55,19 +51,24 @@ kubectl config set-context --current --namespace=default
 pMsg "Labeling the namespace..."
 kubectl label namespace default istio-injection=enabled
 
-
-###---
-### Install Istio:latest
-###---
-istioctl install --set profile=demo -y
+### Verify injection is enabled on the namespace
+kubectl -n default get namespace default -o 'jsonpath={.metadata.labels}'
 
 
 ###---
 ### Install Istio:latest
 ###---
+pMsg "Installing Istio with the $instProfile..."
+istioctl install --set profile="$instProfile" -y
+
+
+###---
+### Install Istio:latest
+###---
+pMsg "Setting Istio's default log-level to debug during rollout..."
 istioctl admin log --level default:debug
 istioctl admin log | grep -E '(debug)$'
-kubectl -n istio-system logs -f -l app=istiod
+kubectl -n istio-system logs -l app=istiod
 
 
 ###---
@@ -80,12 +81,15 @@ istioctl verify-install
 ###---
 ### Validate the current configuration on the 'default' namespace
 ###---
+pMsg "Analyzing the installation..."
 istioctl analyze
 
 
 ###---
 ### Wait for the LB to come online
 ###---
+pMsg "Verifying that we have an Load Balancer..."
+sleep 3s
 kubectl --namespace istio-system get service istio-ingressgateway
 
 
