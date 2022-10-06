@@ -60,6 +60,8 @@ done < <(pgrep kubectl)
 ### Dump Kiali - IF it's installed
 ###---
 if kubectl -n istio-system get kialis.kiali.io > /dev/null 2>&1; then
+    pMsg "Kiali is not installed; moving on..."
+else
     kubectl -n istio-system delete -f "$kialiUIConfig"
     helm uninstall --namespace kiali-operator kiali-operator
 fi
@@ -72,6 +74,7 @@ if istioctl profile list > /dev/null 2>&1; then
     istioctl uninstall --purge -y
 fi
 
+exit
 
 ###---
 ### Destroy the Infrastructure
