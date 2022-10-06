@@ -29,9 +29,9 @@ resource "google_service_account_key" "xdns_auth_key" {
 
 resource "kubernetes_secret" "google-application-credentials" {
   metadata {
-    name = "xdns-admin-test"
+    name = var.xdnsSA
   }
   data = {
-    "xdns-admin-test-key.json" = base64decode(google_service_account_key.xdns_auth_key.private_key)
+    "${var.xdnsSA}-key.json" = base64decode(google_service_account_key.xdns_auth_key.private_key)
   }
 }
