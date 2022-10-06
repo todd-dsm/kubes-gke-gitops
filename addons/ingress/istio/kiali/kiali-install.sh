@@ -16,7 +16,7 @@
 # -----------------------------------------------------------------------------
 #   AUTHOR: Todd E Thomas (github.com/todd-dsm)
 # -----------------------------------------------------------------------------
-set -x
+#set -x
 
 
 ###----------------------------------------------------------------------------
@@ -26,6 +26,7 @@ set -x
 #: "${1?  Wheres my first agument, bro!}"
 myRepoName='kiali'
 myRepoURL="https://kiali.org/helm-charts"
+myNameSpace='kiali-operator'
 
 # Data
 
@@ -34,7 +35,7 @@ myRepoURL="https://kiali.org/helm-charts"
 ###----------------------------------------------------------------------------
 function pMsg() {
     theMessage="$1"
-    printf '%s\n' "$theMessage"
+    printf '\n%s\n' "$theMessage"
 }
 
 
@@ -56,56 +57,34 @@ fi
 
 
 ###---
-### Send the Kiali Operator to the cluster
+### Send it to the cluster
 ###---
+pMsg "Installing Kiali..."
 helm install \
     --set cr.create=true \
     --set cr.namespace=istio-system \
-    --namespace kiali-operator \
-    --create-namespace \
-    kiali-operator \
+    --namespace "$myNameSpace" \
+    --create-namespace "$myNameSpace" \
     kiali/kiali-operator
 
 
 ###---
-### Tell the Operator to deploy the Kiali UI
-### REF: https://kiali.io/docs/installation/installation-guide/creating-updating-kiali-cr
+### Wait for it...
 ###---
-kubectl -n istio-system create -f "$kialiUIConfig"
+kubectl -n "$myNameSpace" wait --for=condition=Ready pods -l app="$myNameSpace"
+sleep 3s
 
 
 ###---
-### Validate the Install
+### Display Status
 ###---
-bash <(curl -sL https://raw.githubusercontent.com/kiali/kiali-operator/master/crd-docs/bin/validate-kiali-cr.sh) \
-  -crd https://raw.githubusercontent.com/kiali/kiali-operator/master/crd-docs/crd/kiali.io_kialis.yaml \
-  --kiali-cr-name kiali \
-  -n istio-system
-
-
-###---
-### Get status
-###---
-kubectl get kiali kiali -n istio-system -o jsonpath='{.status.conditions[].type}'
-
-
-###---
-### Get the Token
-###---
-kubectl get secret -n istio-system \
-    "$(kubectl get sa kiali-service-account -n istio-system -o \
-    "jsonpath={.secrets[0].name}")" \
-        -o jsonpath='{.data.token}' | base64 -d > "$kialiToken"
-
-
-###---
-### Get the Token
-###---
-
-
-###---
-### Get the Token
-###---
+kialiStatus="$(kubectl get kiali kiali -n istio-system -o jsonpath='{.status.conditions[].type}')"
+if [[ "$kialiStatus" != 'Running' ]]; then
+    pMsg "There seems to be issue with Kiali; take a look."
+    exit 1
+else
+    pMsg "Kiali is Running!"
+fi
 
 
 ###---

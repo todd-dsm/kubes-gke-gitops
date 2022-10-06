@@ -17,7 +17,7 @@
 # -----------------------------------------------------------------------------
 #   AUTHOR: Todd E Thomas (github.com/todd-dsm)
 # -----------------------------------------------------------------------------
-set -x
+#set -x
 
 
 ###----------------------------------------------------------------------------
@@ -56,8 +56,17 @@ open -a 'Google Chrome' 'http://localhost:20001'
 #fi
 
 
+###---
+### Dump the initial login token on the admin's system
+###---
+pMsg "Pulling the Kiali login token... $kialiToken"
+cat /dev/null > "$kialiToken"
+kubectl get secret -n istio-system \
+    "$(kubectl get sa kiali-service-account -n istio-system \
+    -o 'jsonpath={.secrets[0].name}')" -o jsonpath='{.data.token}' | \
+    base64 -d > "$kialiToken"
 
-
+cat "$kialiToken"
 
 
 ###---

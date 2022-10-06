@@ -31,8 +31,8 @@ creds:	## Retrieve the KUBECONFIG file
 	@scripts/get-creds.sh
 
 ingrss:	## install/configure Istio
-	@addons/istio/istio-install.sh 
-	@addons/istio/kiali/kiali-install.sh 
+	@addons/ingress/istio/istio-install.sh
+	@addons/ingress/istio/kiali/kiali-install.sh
 
 wrap:	## Display the final bits to the operator 
 	@scripts/final-steps.sh
