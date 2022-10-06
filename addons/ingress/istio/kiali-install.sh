@@ -16,7 +16,7 @@
 # -----------------------------------------------------------------------------
 #   AUTHOR: Todd E Thomas (github.com/todd-dsm)
 # -----------------------------------------------------------------------------
-set -x
+#set -x
 
 
 ###----------------------------------------------------------------------------
@@ -35,7 +35,7 @@ myNameSpace='kiali-operator'
 ###----------------------------------------------------------------------------
 function pMsg() {
     theMessage="$1"
-    printf '%s\n' "$theMessage"
+    printf '\n%s\n' "$theMessage"
 }
 
 
@@ -59,6 +59,7 @@ fi
 ###---
 ### Send it to the cluster
 ###---
+pMsg "Installing Kiali..."
 helm install \
     --set cr.create=true \
     --set cr.namespace=istio-system \
@@ -71,12 +72,13 @@ helm install \
 ### Wait for it...
 ###---
 kubectl -n "$myNameSpace" wait --for=condition=Ready pods -l app="$myNameSpace"
-kialiStatus="$(kubectl get kiali kiali -n istio-system -o jsonpath='{.status.conditions[].type}')"
+sleep 3s
 
 
 ###---
 ### Display Status
 ###---
+kialiStatus="$(kubectl get kiali kiali -n istio-system -o jsonpath='{.status.conditions[].type}')"
 if [[ "$kialiStatus" != 'Running' ]]; then
     pMsg "There seems to be issue with Kiali; take a look."
     exit 1
