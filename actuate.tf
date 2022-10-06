@@ -14,6 +14,7 @@ module "apps" {
   min_dist_size = var.min_dist_size
   dns_name      = var.dns_name
   cidr_range    = var.cidr_range
+  xdnsSA        = var.xdnsSA
   #dns_zone      = var.dns_zone
 }
 

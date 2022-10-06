@@ -12,6 +12,8 @@ resource "google_container_cluster" "apps" {
   location   = var.region
   network    = data.google_compute_network.default_vpc.name
   subnetwork = data.google_compute_subnetwork.default_subnets.name
+  #  network    = google_compute_network.vpc.name
+  #  subnetwork = google_compute_subnetwork.subnet.name
 
   ## use this or external-dns
   #  provider = google-beta

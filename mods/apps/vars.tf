@@ -28,6 +28,11 @@ variable "dns_name" {
   type        = string
 }
 
+variable "xdnsSA" {
+  description = "The account id used to generate the service account email address and a stable, unique id."
+  type        = string
+}
+
 /*
   --------------------------------------------------------|-------------------------------------------------------------
                                                       NETWORKING
