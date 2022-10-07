@@ -43,17 +43,22 @@ function pMsg() {
 
 
 ###---
-### REQ
-###---
-
-
-###---
 ### kill all kubectl port forwarding
 ###---
 pMsg "Dumping all port forwarding PIDs..."
 while read -r myPID; do
     kill -9 "$myPID"
 done < <(pgrep kubectl)
+
+
+###---
+### Dump ExternalDNS
+###---
+if kubectl get pod -l app.kubernetes.io/name=external-dns > /dev/null 2>&1; then
+    pMsg "ExternalDNS is not installed; moving on..."
+else
+    helm uninstall --namespace default external-dns
+fi
 
 
 ###---
@@ -66,7 +71,6 @@ else
     pMsg "Kiali is not installed; moving on..."
 fi
 
-exit
 
 ###---
 ### Dump Istio - IF it's installed
