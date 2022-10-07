@@ -32,7 +32,10 @@ creds:	## Retrieve the KUBECONFIG file
 
 ingrss:	## install/configure Istio
 	@addons/ingress/istio/istio-install.sh
-	@addons/ingress/istio/kiali/kiali-install.sh
+	@addons/ingress/istio/kiali/kiali-install.sh 
+
+xdns:	## Install/configure ExternalDNS via Helm
+	@addons/xdns/xdns-install.sh
 
 wrap:	## Display the final bits to the operator 
 	@scripts/final-steps.sh

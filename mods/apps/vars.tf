@@ -18,18 +18,18 @@ variable "region" {
   type        = string
 }
 
-variable "zone" {
-  description = "Deployment Zone(s); from ENV; E.G.: us-west2-a"
-  type        = string
-}
-
 variable "dns_name" {
-  description = "Primary DNS zone; E.G.: domain.tld"
+  description = "Primary DNS Name; E.G.: domain.tld"
   type        = string
 }
 
 variable "xdnsSA" {
   description = "The account id used to generate the service account email address and a stable, unique id."
+  type        = string
+}
+
+variable "xdns_key" {
+  description = "Name of the key when using a Service Account for ExternalDNS."
   type        = string
 }
 
@@ -64,7 +64,7 @@ variable "kubes_monitor_service" {
 }
 
 variable "cluster_apps" {
-  description = "Display name in GKE and kubectl; from ENV; E.G.: TF_VAR_cluster_apps=apps-stage-la"
+  description = "Display name in GKE and kubectl; from ENV; E.G.: TF_VAR_cluster_name=apps-stage-la"
 }
 
 variable "worker_type" {

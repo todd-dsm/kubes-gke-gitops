@@ -3,7 +3,8 @@
                                               ExternalDNS Service Account
   ----------------------------------------------------------------------------------------------------------------------
 */
-### Create a new service account for Cloud DNS admin role
+### Create a new service account for Cloud DNS admin role: using the "static-credentials" method
+### REF: https://github.com/kubernetes-sigs/external-dns/blob/master/docs/tutorials/gke.md#static-credentials
 ### REF: https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/google_service_account
 resource "google_service_account" "xdns_sa" {
   account_id   = var.xdnsSA
@@ -31,7 +32,18 @@ resource "kubernetes_secret" "google-application-credentials" {
   metadata {
     name = var.xdnsSA
   }
+
   data = {
-    "${var.xdnsSA}-key.json" = base64decode(google_service_account_key.xdns_auth_key.private_key)
+    (var.xdns_key) = base64decode(google_service_account_key.xdns_auth_key.private_key)
   }
 }
+
+/*
+  --------------------------------------------------------|-------------------------------------------------------------
+                                                       OUTPUTS
+  ----------------------------------------------------------------------------------------------------------------------
+*/
+#output "sa_key_name" {
+#  value     = kubernetes_secret.google-application-credentials.data
+#  sensitive = true
+#}

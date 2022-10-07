@@ -7,7 +7,6 @@ module "apps" {
   source        = "./mods/apps"
   envBuild      = var.envBuild
   region        = var.region
-  zone          = var.zone
   project_id    = var.project_id
   cluster_apps  = var.cluster_apps
   worker_type   = var.worker_type
@@ -15,7 +14,7 @@ module "apps" {
   dns_name      = var.dns_name
   cidr_range    = var.cidr_range
   xdnsSA        = var.xdnsSA
-  #dns_zone      = var.dns_zone
+  xdns_key      = var.xdns_key
 }
 
 # -----------------------------------------------------------------------------

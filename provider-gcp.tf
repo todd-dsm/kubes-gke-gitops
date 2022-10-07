@@ -31,20 +31,16 @@ terraform {
   ---------------------------------------------------------------------------------------------------------------------
 */
 provider "google" {
-  #credentials = file(var.projectCreds)
-  region = var.region
-  #zone    = var.zone
+  region  = var.region
   project = var.project_id
 }
 
 provider "google-beta" {
-  #credentials = file(var.projectCreds)
-  region = var.region
-  #zone    = var.zone
+  region  = var.region
   project = var.project_id
 }
 
 provider "kubernetes" {
-  config_path    = "~/.kube/${var.project_id}.ktx"
+  config_path    = "~/.kube/${var.project_id}.ktx" # change to var.cluster_name
   config_context = var.project_id
 }

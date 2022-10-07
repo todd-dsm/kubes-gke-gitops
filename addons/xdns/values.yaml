@@ -376,14 +376,14 @@ google:
   project: "kubes-gke-gitops"
   ## @param google.serviceAccountSecret When using the Google provider, specify the existing secret which contains credentials.json (optional)
   ##
-  serviceAccountSecret: "xdns-admin-stage"
+  serviceAccountSecret: "xdns-admin"
   ## @param google.serviceAccountSecretKey When using the Google provider with an existing secret, specify the key name (optional)
   ##
   serviceAccountSecretKey: "credentials.json"
   ## @param google.serviceAccountKey When using the Google provider, specify the service account key JSON file. In this case a new secret will be created holding this service account (optional)
   ##
   serviceAccountKey: ""
-  ## @param google.zoneVisibility When using the Google provider, fiter for zones of a specific visibility (private or public)
+  ## @param google.zoneVisibility When using the Google provider, filter for zones of a specific visibility (private or public)
   ##
   zoneVisibility: ""
 ## Hetzner configuration to be set via arguments/env. variables

@@ -1,0 +1,11 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: yo-external-dns
+  namespace: default
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: yo.kubes.rocks
+spec:
+  type: ExternalName
+  externalName: 1.2.3.4

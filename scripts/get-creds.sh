@@ -35,7 +35,7 @@
 
 # ENV Stuff
 verbose=0
-targetCluster="$TF_VAR_cluster_apps"
+targetCluster="$TF_VAR_cluster_name"
 
 
 ###-----------------------------------------------------------------------------
