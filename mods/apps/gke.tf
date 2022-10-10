@@ -24,6 +24,19 @@ resource "google_container_cluster" "apps" {
   release_channel {
     channel = "REGULAR"
   }
+  # Minimal config: "SYSTEM_COMPONENTS" and "WORKLOADS"
+  logging_config {
+    enable_components = [
+      "SYSTEM_COMPONENTS",
+      "WORKLOADS",
+    ]
+  }
+  # Minimal config: "SYSTEM_COMPONENTS"; more options under beta provider
+  monitoring_config {
+    enable_components = [
+      "SYSTEM_COMPONENTS",
+    ]
+  }
 }
 
 # Disco: what's the latest/stable cluster version?
