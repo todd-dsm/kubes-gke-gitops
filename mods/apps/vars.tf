@@ -18,10 +18,10 @@ variable "region" {
   type        = string
 }
 
-variable "zone" {
-  description = "Deployment Zone(s); from ENV; E.G.: us-west2-a"
-  type        = string
-}
+#variable "zone" {
+#  description = "Deployment Zone(s); from ENV; E.G.: us-west2-a"
+#  type        = string
+#}
 
 variable "dns_name" {
   description = "Primary DNS zone; E.G.: domain.tld"
@@ -58,7 +58,7 @@ variable "kubes_monitor_service" {
   default = "monitoring.googleapis.com/kubernetes"
 }
 
-variable "cluster_apps" {
+variable "cluster_name" {
   description = "Display name in GKE and kubectl; from ENV; E.G.: TF_VAR_cluster_apps=apps-stage-la"
 }
 

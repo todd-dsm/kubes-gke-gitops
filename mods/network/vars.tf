@@ -3,7 +3,6 @@
                                                       NETWORKING
   ----------------------------------------------------------------------------------------------------------------------
 */
-
 variable "project_id" {
   description = "Currently configured project ID; from ENV; E.G.: My First Project"
   type        = string

@@ -16,15 +16,19 @@ resource "google_compute_network" "vpc" {
 # REQ: Create n number of /18 IPv4 subnets
 # TFR: https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_subnetwork
 resource "google_compute_subnetwork" "subnet" {
-  name          = "subnet-0${count.index}"
+  name          = "${var.project_id}-subnet"
   region        = var.region
   network       = google_compute_network.vpc.id
-  count         = var.min_dist_size
-  ip_cidr_range = cidrsubnet(var.cidr_range, 2, count.index)
+  ip_cidr_range = var.cidr_range
 
   secondary_ip_range {
-    range_name    = "tf-test-secondary-range-update1"
-    ip_cidr_range = "192.168.10.0/24"
+    range_name    = "pod-range"
+    ip_cidr_range = "192.168.0.0/18"
+  }
+
+  secondary_ip_range {
+    range_name    = "service-range"
+    ip_cidr_range = "172.16.0.0/18"
   }
 
   # Logging for all Subnets

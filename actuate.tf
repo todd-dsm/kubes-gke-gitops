@@ -1,12 +1,12 @@
 # -----------------------------------------------------------------------------
 # Base Network Configuration
 # -----------------------------------------------------------------------------
-module "vpc" {
-  source = "./mods/network"
-  #  version      = "5.2.0"
-  project_id    = var.project_id
-  min_dist_size = var.min_dist_size
+
+module "network" {
+  source        = "./mods/network"
   cidr_range    = var.cidr_range
+  min_dist_size = var.min_dist_size
+  project_id    = var.project_id
   region        = var.region
 }
 

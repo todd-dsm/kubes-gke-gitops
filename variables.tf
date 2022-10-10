@@ -39,10 +39,10 @@ variable "worker_type" {
                                  PROJECT-LEVEL
   -----------------------------------------------------------------------------
 */
-#variable "envBuild" {
-#  description = "Build Environment; from ENV; E.G.: envBuild=stage"
-#  type        = string
-#}
+variable "envBuild" {
+  description = "Build Environment; from ENV; E.G.: envBuild=stage"
+  type        = string
+}
 
 variable "project_id" {
   description = "Currently configured project ID; from ENV; E.G.: My First Project"
