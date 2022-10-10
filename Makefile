@@ -63,7 +63,7 @@ clean:	## Clean WARNING Message
 	@exit
 
 destroy:	## Destroy Terraformed resources and all generated files with output log
-	scripts/destroyer.sh 
+	scripts/destroyer.sh | tee /tmp/tf-$(TF_VAR_project_id)-destroy.out
 
 #-----------------------------------------------------------------------------#
 #------------------------   MANAGERIAL OVERHEAD   ----------------------------#
