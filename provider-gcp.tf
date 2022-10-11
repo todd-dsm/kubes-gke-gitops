@@ -10,12 +10,12 @@ terraform {
     # https://github.com/hashicorp/terraform-provider-google/releases
     google = {
       source  = "hashicorp/google"
-      version = "~> 4.3.0"
+      version = ">= 4.3.0, < 5.0.0"
     }
     # https://github.com/hashicorp/terraform-provider-google-beta/releases
     google-beta = {
       source  = "hashicorp/google-beta"
-      version = "~> 4.3.0"
+      version = ">= 4.3.0, < 5.0.0"
     }
     # https://registry.terraform.io/providers/hashicorp/kubernetes/latest
     kubernetes = {

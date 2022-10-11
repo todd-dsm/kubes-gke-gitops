@@ -44,7 +44,7 @@ variable "xdns_key" {
                                                       NETWORKING
   ----------------------------------------------------------------------------------------------------------------------
 */
-variable "cidr_range" {
+variable "subnetwork_ip_range" {
   description = "CIDR range for the target VPC"
   type        = string
 }
@@ -54,21 +54,24 @@ variable "min_dist_size" {
   type        = number
 }
 
+variable "ip_range_pods_cidr" {
+  default = "192.168.0.0/18"
+}
+
+variable "ip_range_services_cidr" {
+  default = "172.16.0.0/18"
+}
+
 /*
   --------------------------------------------------------|-------------------------------------------------------------
                                                       KUBERNETES
   ----------------------------------------------------------------------------------------------------------------------
 */
-//variable "cluster_name" {
-//  description = "Display name in GKE and kubectl; from ENV; E.G.: TF_VAR_cluster_name=apps-stage-la"
-//}
-
-# ----------------------------------------------------------------------------------------------------------------------
-
-variable "cluster_apps" {
+variable "cluster_name" {
   description = "Display name in GKE and kubectl; from ENV; E.G.: TF_VAR_cluster_name=apps-stage-la"
 }
 
+# ----------------------------------------------------------------------------------------------------------------------
 #variable "cluster_vault" {
 #  description = "Display name in GKE and kubectl; from ENV; E.G.: TF_VAR_cluster_vault=vault-$product-stage"
 #}
