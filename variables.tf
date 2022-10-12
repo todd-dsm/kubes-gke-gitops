@@ -44,7 +44,12 @@ variable "xdns_key" {
                                                       NETWORKING
   ----------------------------------------------------------------------------------------------------------------------
 */
-variable "subnetwork_ip_range" {
+variable "subnet_name" {
+  default = "Name of the subnet within a given vpc network."
+  type    = string
+}
+
+variable "subnet_range" {
   description = "CIDR range for the target VPC"
   type        = string
 }
@@ -54,12 +59,12 @@ variable "min_dist_size" {
   type        = number
 }
 
-variable "ip_range_pods_cidr" {
-  default = "192.168.0.0/18"
+variable "pod_cidr" {
+  default = "192.168.0.0/20"
 }
 
-variable "ip_range_services_cidr" {
-  default = "172.16.0.0/18"
+variable "svc_cidr" {
+  default = "172.16.0.0/24"
 }
 
 /*

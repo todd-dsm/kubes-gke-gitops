@@ -5,7 +5,7 @@
 */
 # Check google/google-beta Releases: version numbers tend to match, and should
 terraform {
-  required_version = "~> 1.2.9"
+  required_version = "~> 1.3.0"
   required_providers {
     # https://github.com/hashicorp/terraform-provider-google/releases
     google = {
@@ -27,7 +27,7 @@ terraform {
 
 /*
   --------------------------------------------------------|------------------------------------------------------------
-                                                       PROJECT
+                                                   PROJECT CONFIG
   ---------------------------------------------------------------------------------------------------------------------
 */
 provider "google" {
