@@ -9,6 +9,7 @@ module "apps_cluster" {
   source                    = "terraform-google-modules/kubernetes-engine/google"
   project_id                = module.network.project_id
   name                      = var.cluster_name
+  kubernetes_version        = "1.23.12-gke.100"
   regional                  = true
   region                    = var.region
   network                   = module.network.network_name
@@ -17,13 +18,13 @@ module "apps_cluster" {
   ip_range_services         = "${var.project_id}-svcs"
   default_max_pods_per_node = 64
   network_policy            = true
-  release_channel           = "REGULAR"
+  release_channel           = "UNSPECIFIED"
   cluster_resource_labels   = { "mesh_id" : "proj-${data.google_project.project.number}" }
   node_pools = [
     {
       name         = "${var.cluster_name}-np"
       autoscaling  = true
-      auto_upgrade = true
+      auto_upgrade = false
       min_count    = 1
       max_count    = 5
       node_count   = 2
@@ -31,7 +32,6 @@ module "apps_cluster" {
     },
   ]
 }
-
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Base Network Configuration
