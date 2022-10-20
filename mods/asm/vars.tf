@@ -67,10 +67,10 @@ variable "kubeconfig_path" {
   type        = string
 }
 
-#variable "cluster_endpoint" {
-#  description = "The publicly available endpoint for the cluster; provided by the GKE module outputs."
-#  type        = string
-#}
+variable "cluster_endpoint" {
+  description = "The publicly available endpoint for the cluster; provided by the GKE module outputs."
+  type        = string
+}
 
 #variable "kubes_log_service" {
 #  type    = string

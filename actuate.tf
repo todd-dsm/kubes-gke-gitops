@@ -76,12 +76,12 @@ module "network" {
 #   * TFR: https://registry.terraform.io/modules/terraform-google-modules/kubernetes-engine/google/14.0.1/submodules/asm
 # ----------------------------------------------------------------------------------------------------------------------
 module "asm" {
-  source          = "./mods/asm"
-  project_id      = var.project_id
-  cluster_name    = var.cluster_name
-  location        = module.apps_cluster.location
-  kubeconfig_path = var.kubeconfig_path
-  #cluster_endpoint = module.apps_cluster.endpoint
+  source           = "./mods/asm"
+  project_id       = var.project_id
+  cluster_name     = var.cluster_name
+  location         = module.apps_cluster.location
+  kubeconfig_path  = var.kubeconfig_path
+  cluster_endpoint = module.apps_cluster.endpoint
 }
 
 # ----------------------------------------------------------------------------------------------------------------------

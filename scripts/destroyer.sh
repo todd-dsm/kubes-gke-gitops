@@ -89,14 +89,18 @@ terraform apply -destroy -auto-approve -no-color 2>&1 | \
 
 
 ###---
+### FIXME: something his lingering, keeping the network from beging destroyed.
+###        wait for a few more seconds and try again
+###---
+sleep 30s
+tf destroy -target module.network.module.subnets.google_compute_subnetwork.subnetwork -auto-approve
+tf destroy -target module.network.module.vpc.google_compute_network.network -auto-approve
+
+
+###---
 ### Clean up the local cruft
 ###---
-rm -rf .terraform/ "$filePlan" "$ktxFile"
-
-
-###---
-### REQ
-###---
+rm -rf "$filePlan" "$ktxFile" #.terraform/
 
 
 ###---
