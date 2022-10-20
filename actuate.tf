@@ -8,7 +8,7 @@
 module "apps_cluster" {
   source                    = "terraform-google-modules/kubernetes-engine/google"
   project_id                = module.network.project_id
-  name                      = "${var.project_id}-apps"
+  name                      = var.cluster_name
   regional                  = true
   region                    = var.region
   network                   = module.network.network_name
@@ -21,7 +21,7 @@ module "apps_cluster" {
   cluster_resource_labels   = { "mesh_id" : "proj-${data.google_project.project.number}" }
   node_pools = [
     {
-      name         = "${var.project_id}-apps-np"
+      name         = "${var.cluster_name}-np"
       autoscaling  = true
       auto_upgrade = true
       min_count    = 1
@@ -31,6 +31,7 @@ module "apps_cluster" {
     },
   ]
 }
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Base Network Configuration
@@ -67,6 +68,20 @@ module "network" {
       },
     ]
   }
+}
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Anthos Service Mesh (ASM)
+#   * The ASM module doesn't work; it still has x86_64 dependencies. We'll have to code it up
+#   * TFR: https://registry.terraform.io/modules/terraform-google-modules/kubernetes-engine/google/14.0.1/submodules/asm
+# ----------------------------------------------------------------------------------------------------------------------
+module "asm" {
+  source          = "./mods/asm"
+  project_id      = var.project_id
+  cluster_name    = var.cluster_name
+  location        = module.apps_cluster.location
+  kubeconfig_path = var.kubeconfig_path
+  #cluster_endpoint = module.apps_cluster.endpoint
 }
 
 # ----------------------------------------------------------------------------------------------------------------------

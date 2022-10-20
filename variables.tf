@@ -76,6 +76,11 @@ variable "cluster_name" {
   description = "Display name in GKE and kubectl; from ENV; E.G.: TF_VAR_cluster_name=apps-stage-la"
 }
 
+variable "kubeconfig_path" {
+  description = "full path of the KUBECONFIG file; E.G.: ~/.kube/kubes-gke-gitops-stage.ktx"
+  type        = string
+}
+
 # ----------------------------------------------------------------------------------------------------------------------
 #variable "cluster_vault" {
 #  description = "Display name in GKE and kubectl; from ENV; E.G.: TF_VAR_cluster_vault=vault-$product-stage"
